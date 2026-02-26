@@ -6,13 +6,20 @@ import './App.css'
 
 const REFRESH_INTERVAL_MS = 60_000
 
+const SCENE_LABELS: Record<WeatherScene, string> = {
+  Sunny: '晴天',
+  Rainy: '雨天',
+  Windy: '大风',
+  Snowy: '雪天',
+}
+
 function formatUpdatedAt(value: string): string {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) {
     return value
   }
 
-  return date.toLocaleString()
+  return date.toLocaleString('zh-CN')
 }
 
 function App() {
@@ -40,7 +47,7 @@ function App() {
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : 'Unable to load weather data.')
+          setError(err instanceof Error ? err.message : '天气数据加载失败。')
           setWeather(null)
         }
       } finally {
@@ -71,16 +78,20 @@ function App() {
         <span className="particle p2" />
         <span className="particle p3" />
         <span className="particle p4" />
+        <span className="particle p5" />
+        <span className="particle p6" />
+        <span className="particle p7" />
+        <span className="particle p8" />
       </div>
 
       <section className="weather-card" aria-live="polite">
         <header className="card-header">
-          <p className="eyebrow">Live Weather</p>
+          <p className="eyebrow">实时天气</p>
           <h1>{activeCity.name}</h1>
-          {weather && <p className="scene-tag">{weather.scene}</p>}
+          {weather && <p className="scene-tag">{SCENE_LABELS[weather.scene]}</p>}
         </header>
 
-        <div className="city-switch" role="tablist" aria-label="Choose city">
+        <div className="city-switch" role="tablist" aria-label="选择城市">
           {CITIES.map((city) => (
             <button
               key={city.key}
@@ -95,7 +106,7 @@ function App() {
           ))}
         </div>
 
-        {loading && <p className="state-text">Loading weather data...</p>}
+        {loading && <p className="state-text">正在加载天气数据...</p>}
 
         {!loading && error && (
           <div className="state-box error" role="alert">
@@ -107,19 +118,19 @@ function App() {
           <>
             <div className="metrics-grid">
               <article className="metric-item">
-                <p className="metric-label">Temperature</p>
+                <p className="metric-label">温度</p>
                 <p className="metric-value">{weather.temperature.toFixed(1)}°C</p>
               </article>
               <article className="metric-item">
-                <p className="metric-label">Humidity</p>
+                <p className="metric-label">湿度</p>
                 <p className="metric-value">{weather.humidity}%</p>
               </article>
               <article className="metric-item">
-                <p className="metric-label">Wind Speed</p>
+                <p className="metric-label">风速</p>
                 <p className="metric-value">{weather.windSpeed.toFixed(1)} km/h</p>
               </article>
             </div>
-            <p className="updated-at">Updated: {formatUpdatedAt(weather.updatedAt)}</p>
+            <p className="updated-at">更新时间：{formatUpdatedAt(weather.updatedAt)}</p>
           </>
         )}
       </section>

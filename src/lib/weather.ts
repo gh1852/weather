@@ -53,11 +53,11 @@ export async function fetchCityWeather(city: City): Promise<WeatherData> {
   try {
     response = await fetch(`${ENDPOINT}?${query.toString()}`)
   } catch {
-    throw new Error('Network error: unable to reach weather service.')
+    throw new Error('网络异常：无法连接天气服务。')
   }
 
   if (!response.ok) {
-    throw new Error(`Weather service unavailable (HTTP ${response.status}).`)
+    throw new Error(`天气服务暂时不可用（HTTP ${response.status}）。`)
   }
 
   let payload: OpenMeteoCurrentResponse
@@ -65,12 +65,12 @@ export async function fetchCityWeather(city: City): Promise<WeatherData> {
   try {
     payload = (await response.json()) as OpenMeteoCurrentResponse
   } catch {
-    throw new Error('Invalid weather response format.')
+    throw new Error('天气数据格式异常。')
   }
 
   const current = payload.current
   if (!current) {
-    throw new Error('Weather data is currently unavailable.')
+    throw new Error('当前暂无可用天气数据。')
   }
 
   return {
