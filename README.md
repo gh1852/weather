@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# Realtime Weather Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+基于 `React + TypeScript + Vite` 的实时天气页面，使用 Open-Meteo 实时数据，为北京 / 上海 / 深圳提供天气展示。
 
-Currently, two official plugins are available:
+## 功能亮点
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 城市切换：北京、上海、深圳
+- 实时天气数据：温度、湿度、风速
+- 四种天气场景：`Sunny` / `Rainy` / `Windy` / `Snowy`
+- 自动刷新（60 秒）
+- 完整加载态与错误态
+- 玻璃拟态与轻动画视觉效果
+- 响应式布局（桌面 + 移动端）
 
-## React Compiler
+## 快速开始
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 常用命令
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run lint
 ```
+
+## 技术栈
+
+- React 19
+- TypeScript 5
+- Vite 7
+- ESLint 9
+
+## 目录结构
+
+```text
+src/
+├─ constants/cities.ts    # 城市坐标配置
+├─ lib/weather.ts         # Open-Meteo 请求与天气场景映射
+├─ types/weather.ts       # 天气相关类型定义
+├─ App.tsx                # 页面主逻辑
+├─ App.css                # 场景样式与动画
+├─ index.css              # 全局样式
+└─ main.tsx               # 应用入口
+```
+
+## 说明
+
+- 数据来源：Open-Meteo Forecast API
+- `vite.config.ts` 中 `base` 配置为 `/weather/`
